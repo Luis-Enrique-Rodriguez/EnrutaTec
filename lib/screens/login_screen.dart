@@ -1,11 +1,14 @@
-
-
+import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/email_auth.dart';
+import 'package:enrutatec/model/firebase_user.dart';
+import 'package:enrutatec/screens/dashboard_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
-   LoginScreen({super.key});
+  LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -13,14 +16,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final emailAuth = new EmailAuth();
-   bool isSessionSaved = false;
+  bool isSessionSaved = false;
+  final FirebaseUser _user = FirebaseUser();
+  final AuthServiceGoogle _auth = AuthServiceGoogle();
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
     checkSavedSession();
+    _user.user = _auth.user;
   }
+
+ 
 
   void checkSavedSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -41,10 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController txtConPass = TextEditingController();
 
 
+
 final btnEntrar = FloatingActionButton.extended(
       icon: Icon(Icons.login),
       label: Text('Entrar'),
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 12, 144, 221),
       onPressed: () async {
         bool res = await emailAuth.validateUser(emailUser: txtConUser.text, pwdUser: txtConPass.text);
         if(txtConUser!=null && txtConPass!=null){
@@ -65,6 +74,7 @@ final btnEntrar = FloatingActionButton.extended(
             );
           } );
         }if(res){
+          CircularProgressIndicator();
            Navigator.pushNamed(context, '/dash');
           saveSession(isSessionSaved);
         }
@@ -89,10 +99,12 @@ final sessionCheckbox = Checkbox(
           vertical: 90.0
         ),
         children: <Widget> [
+          
           Divider(height: 50,),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text('EnrutaTec',style: TextStyle(fontSize: 40),),
               CircleAvatar(
                 radius: 100.0,
                 backgroundColor: Colors.transparent,
@@ -113,7 +125,7 @@ final sessionCheckbox = Checkbox(
               ),
               TextField(
                 enableInteractiveSelection: false,
-                textCapitalization: TextCapitalization.characters,
+                //textCapitalization: TextCapitalization.characters,
                 decoration: InputDecoration(
                   hintText: 'Correo',
                   labelText: 'Correo',
@@ -129,7 +141,7 @@ final sessionCheckbox = Checkbox(
               Divider(height: 30),
               TextField(
                 enableInteractiveSelection: false,
-                textCapitalization: TextCapitalization.characters,
+                //textCapitalization: TextCapitalization.characters,
                 decoration: InputDecoration(
                   hintText: 'Contraseña',
                   labelText: 'Contraseña',
@@ -143,16 +155,17 @@ final sessionCheckbox = Checkbox(
                 controller: txtConPass,
                 obscureText: true,
               ),
-
               TextButton(
-                  
                   onPressed: () => Navigator.pushNamed(context, '/register'), 
                   child: const Text('¿No tienes una cuenta? Registrate', 
                   style: TextStyle(fontSize: 15),
                   )
                 
       ),
-           
+           ElevatedButton(onPressed: () {
+            _login();
+           }, child: _login()//_user.uid != null ? _logged() : _login() 
+           ),
             ],
            
           )
@@ -160,11 +173,43 @@ final sessionCheckbox = Checkbox(
         ],
         
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
        floatingActionButton: btnEntrar,
-     
-      
       
     );
-    
+
   }
+
+  ElevatedButton _login(){
+    return ElevatedButton.icon(icon: Icon(Icons.login), label: Text('Sign with Google'), onPressed: () async{
+      await _auth.signInGoogle();
+      setState(() {
+        _user.user= _auth.user;
+        Navigator.pushNamed(context, '/dash');
+      });
+    });
+  }
+
+  /*Column _logged() {
+    return Column(
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(_user.imageUrl!),
+        ),
+        Text(_user.name!),
+        Text(_user.email!),
+        ElevatedButton.icon( icon: Icon(Icons.logout), label: Text('Log Out'),
+        onPressed: ()async {
+          await _auth.signOutGoogle();
+          Navigator.pushReplacementNamed(context, '/logout');
+          setState(() {
+            _user.user= _auth.user;
+            Navigator.pushNamed(context, '/logout');
+          });
+        },
+        )
+      ],
+    );
+  }*/
+
 }
