@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315360964692",
+    "project_id": "enrutatec-3bdee",
+    "storage_bucket": "enrutatec-3bdee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315360964692:android:641180c599e3f4cd03fdc1",
+        "android_client_info": {
+          "package_name": "com.example.enrutatec"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK9yR849XiMusiuzIVBL9tgITCwBIsO2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
