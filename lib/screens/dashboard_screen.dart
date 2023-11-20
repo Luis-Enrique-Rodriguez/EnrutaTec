@@ -1,6 +1,10 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:enrutatec/firebase/auth_with_google.dart';
+import 'package:enrutatec/firebase/ruta_firebase.dart';
+import 'package:enrutatec/screens/login_screen.dart';
+import 'package:enrutatec/screens/map_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:enrutatec/assets/global_values.dart';
 import 'package:enrutatec/model/firebase_user.dart';
@@ -9,13 +13,17 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen( {super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<DashboardScreen> createState() => DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
-final FirebaseUser _user = FirebaseUser();
+class DashboardScreenState extends State<DashboardScreen> {
+  RutaFirebase? rutasFirebase;
+  final FirebaseUser _user = FirebaseUser();
   final AuthServiceGoogle _auth = AuthServiceGoogle();
-void logout() async {
+  AccessToken? _accessToken;
+  Map<String, dynamic>? _userData;
+
+  void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('sessionSaved');
     Navigator.pushReplacementNamed(context, '/logout');
@@ -26,19 +34,93 @@ void logout() async {
     // TODO: implement initState
     super.initState();
     _user.user = _auth.user;
+    rutasFirebase = RutaFirebase();
   }
 
   @override
-  
   Widget build(BuildContext context) {
-    return Scaffold(
+  return Scaffold(
        appBar: AppBar(
         title: Text('EnrutaTec'),
       ),
-      drawer: createDrawer(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      
-    
+        drawer: createDrawer(),
+        body:
+        FutureBuilder(
+          future: getAllRutasList(), 
+          builder: ((context, snapshot) {
+            if(snapshot.hasData){
+                 return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                     
+                       children: [
+                         Image.network(snapshot.data?[index]['img'],
+                              width: 100, 
+                              height: 100,),
+                       SizedBox(width: 20,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(snapshot.data?[index]['numero']),
+                            Text(snapshot.data?[index]['nombre']),
+                            ],
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen())) ,
+                            child: Icon(Icons.map)
+                        )
+                      ],
+                        ),
+                    ),
+                  );  
+          });
+            }else{
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }
+        )
+      /*StreamBuilder(
+        stream: _rutasFirebase!.getAllRutas(),
+        builder: (context, AsyncSnapshot snapshot,) {
+          if (snapshot.hasData){
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return CardRutaWidget(
+                  
+                  //snapshot.data!.docs[index].get('nombre') 
+                  //Image.network(snapshot.data!.docs[index].get('img')),
+                  //Text(snapshot.data!.docs[index].get('numero')),
+                  //snapshot.data!.docs[index].get('nombre'),
+                );
+                /*return Column(
+                  children: [
+                    Image.network(snapshot.data!.docs[index].get('img')),
+                    Text(snapshot.data!.docs[index].get('numero')),
+                    Text(snapshot.data!.docs[index].get('nombre')),
+                  ]
+                );*/
+              },
+            );
+          }else{
+            if(snapshot.hasError) {
+            return Center (child: Text('Error'),);
+            }else{
+              return Center (child: CircularProgressIndicator());
+            }
+          }
+        },
+      ),*/
+        
+        )
     );
   }
 
@@ -46,55 +128,24 @@ Widget createDrawer() {
     return Drawer(
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
+                backgroundImage: _user.imageUrl != null ? NetworkImage(_user.imageUrl!) : NetworkImage('https://i.pravatar.cc/300'),
               ),
-              accountName: Text('Luis Enrique Moreno Rodriguez'),
-              accountEmail: Text('luis_rodriguez420@hotmail.com')),
-          ListTile(
-            //leading: Image.asset("assets/fresa.png"),
-            leading: Image.network('https://img.icons8.com/?size=1x&id=95287&format=png'),
-            trailing: Icon(Icons.chevron_right),
-            title: Text('FruitApp'),
-            subtitle: Text('Carrousel'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(Icons.task_alt_outlined),
-            trailing: Icon(Icons.chevron_right),
-            title: Text('Task Manager'),
-            onTap: () => Navigator.pushNamed(context, '/task'), 
-          ),
-          ListTile(
-            leading: Icon(Icons.movie),
-            trailing: Icon(Icons.chevron_right),
-            title: Text('Movies'),
-            onTap: () => Navigator.pushNamed(context, '/popular'), 
-          ),
-          ListTile(
-            leading: Icon(Icons.check),
-            trailing: Icon(Icons.chevron_right),
-            title: Text('Provider'),
-            onTap: () => Navigator.pushNamed(context, '/prov'), 
-          ),
-          ListTile(
-            leading: Icon(Icons.calendar_month),
-            trailing: Icon(Icons.chevron_right),
-            title: Text('Calendario'),
-            onTap: () => Navigator.pushNamed(context, '/calendar'), 
-          ),
+              accountName: _user.name !=null ? Text(_user.name!) : Text('Buenas tardes'),
+              accountEmail: _user.email !=null ? Text(_user.email!) : Text('Bienvenido')
+              )  ,
           ListTile(
             leading: Icon(Icons.person),
             trailing: Icon(Icons.chevron_right),
-            title: Text('Profesor'),
-            onTap: () => Navigator.pushNamed(context, '/profesor'), 
+            title: Text('Perfil'),
+            onTap: () => Navigator.pushNamed(context, '/profile'), 
           ),
           ListTile(
-            leading: Icon(Icons.school),
+            leading: Icon(Icons.info),
             trailing: Icon(Icons.chevron_right),
-            title: Text('Carrera'),
-            onTap: () => Navigator.pushNamed(context, '/carrera'), 
+            title: Text('Información'),
+            onTap: () => Navigator.pushNamed(context, '/information'), 
           ),
           DayNightSwitcher(
             isDarkModeEnabled: globalValues.flagTheme.value,
@@ -110,6 +161,7 @@ Widget createDrawer() {
             onTap: () {
               logout(); // Llama a la función logout al hacer clic en "Cerrar sesión"
               _handleLogOut();
+              _logoutFB();
             },
           )
         ],
@@ -126,4 +178,72 @@ void _handleLogOut() async {
   });
 }
 
+void _handleLogin() async {
+  await _auth.signInGoogle();
+  setState(() {
+    _user.user = _auth.user;
+  });
+}
+
+_logoutFB() async {
+    await FacebookAuth.instance.logOut();
+    _accessToken = null;
+    _userData = null;
+    setState(() {
+      Navigator.pushNamed(context, '/logout');
+    });
+  }
+
+/*Column _logged() {
+    return Column(
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(_user.imageUrl!),
+        ),
+        Text(_user.name!),
+        Text(_user.email!),
+        ElevatedButton.icon( icon: Icon(Icons.logout), label: Text('Log Out'),
+        onPressed: ()async {
+          await _auth.signOutGoogle();
+          Navigator.pushReplacementNamed(context, '/logout');
+          setState(() {
+            _user.user= _auth.user;
+            Navigator.pushNamed(context, '/logout');
+          });
+        },
+        )
+      ],
+    );
+  }*/
+
+/*
+ StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('ruta').doc('23').snapshots(), 
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if(snapshot.hasError){
+          return Center(
+            child: Text('Error'),
+          );
+        }
+        if(snapshot.connectionState == ConnectionState.active){
+          Map<String, dynamic> data = 
+          snapshot.data!.data() as Map<String, dynamic>;
+          return Center(
+            child: Text(data['Nombre'], 
+            style: 
+            TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold
+            ),
+            ),
+          );
+        }
+
+         return Center(
+            child: Text('Loading'),
+          );
+
+      },
+    ), 
+*/
 }

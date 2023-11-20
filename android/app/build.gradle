@@ -46,7 +46,7 @@ android {
         applicationId "com.example.enrutatec"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 20 //flutter.minSdkVersion
+        minSdkVersion 21 //flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
@@ -69,4 +69,6 @@ flutter {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
 }

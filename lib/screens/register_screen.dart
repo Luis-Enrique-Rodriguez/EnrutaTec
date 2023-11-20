@@ -38,7 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Divider(height: 50,),
             TextFormField(
               enableInteractiveSelection: false,
-              textCapitalization: TextCapitalization.characters,
               decoration: InputDecoration(
                   hintText: 'Usuario',
                   labelText: 'Usuario',
@@ -54,7 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Divider(height: 25,),
             TextFormField(
               enableInteractiveSelection: false,
-              textCapitalization: TextCapitalization.characters,
               decoration: InputDecoration(
                   hintText: 'Correo',
                   labelText: 'Correo',
@@ -70,7 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Divider(height: 25,),
             TextFormField(
               enableInteractiveSelection: false,
-              textCapitalization: TextCapitalization.characters,
               decoration: InputDecoration(
                   hintText: 'Contraseña',
                   labelText: 'Contraseña',
