@@ -16,7 +16,40 @@ class _MapsScreenState extends State<MapsScreen> {
   static const LatLng sourceLocation =
       LatLng(20.520385136074694, -100.81485567150284);
 
-  List<Marker> _marker = [];
+  final List<Polyline> _polylines = [
+    const Polyline(
+      polylineId: PolylineId('1'),
+      color: Colors.blue,
+      width: 5,
+      points: [
+        LatLng(20.488789332013937, -100.8013000044557),
+        LatLng(20.492121695424068, -100.80218419016636),
+        LatLng(20.496352444974203, -100.80427663479499),
+        LatLng(20.496788659779792, -100.80670718778694),
+        LatLng(20.5016556562032, -100.80902929093705),
+        LatLng(20.501572001343213, -100.81223175185038),
+        LatLng(20.50875121516274, -100.81420298790705),
+        LatLng(20.51439157643493, -100.80708357271983),
+        LatLng(20.51821543211251, -100.80769599550905),
+        LatLng(20.519665994603447, -100.81204303044305),
+        LatLng(20.521255241423333, -100.81109887859951),
+        LatLng(20.521016258019923, -100.80463016282704),
+        LatLng(20.52385416216673, -100.80387739312383),
+        LatLng(20.53055738165465, -100.80249944190801),
+        LatLng(20.537144760086157, -100.80327425816643),
+        LatLng(20.53692372339475, -100.80881158091434),
+        LatLng(20.53671463432787, -100.81247973826676),
+        LatLng(20.53852846694292, -100.81980470553545),
+        LatLng(20.545178182340308, -100.82107291551979),
+        LatLng(20.552305962892778, -100.82171664568071),
+        LatLng(20.552137692846024, -100.81356809457958),
+        LatLng(20.555533196059937, -100.80517814487713),
+
+        // LatLng(20.422694577307826, -100.77145658641848), // Base San Jose
+      ],
+    ),
+  ];
+  final List<Marker> _marker = [];
   final List<Marker> _list = const [
     Marker(
         markerId: MarkerId('1'),
@@ -128,6 +161,7 @@ class _MapsScreenState extends State<MapsScreen> {
       ),
       body: GoogleMap(
         mapType: MapType.normal,
+        polylines: Set<Polyline>.of(_polylines),
         initialCameraPosition: const CameraPosition(
           target: sourceLocation,
           zoom: 14.4746,

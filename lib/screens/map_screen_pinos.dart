@@ -27,8 +27,8 @@ class _MapsScreenState extends State<MapScreenPinos> {
         LatLng(20.524833312228726, -100.77775572263678),
         LatLng(20.533121690382313, -100.77665505818739),
         LatLng(20.539302597554173, -100.778385771337),
-        LatLng(20.501572001343213, -100.81223175185038),
-        LatLng(20.50875121516274, -100.81420298790705),
+        LatLng(20.54472793348819, -100.77973650538105),
+        LatLng(20.54676401569741, -100.78014141714964),
         LatLng(20.548891159539394, -100.78104721406366),
         LatLng(20.54926140264817, -100.78485204675675),
         LatLng(20.550275133714727, -100.79597597528547),
@@ -38,7 +38,7 @@ class _MapsScreenState extends State<MapScreenPinos> {
         LatLng(20.554298019137274, -100.83157877708966),
         LatLng(20.54877859903943, -100.84082891303945),
         LatLng(20.544253157046878, -100.84267642620314),
-        LatLng(20.53671463432787, -100.81247973826676),
+        LatLng(20.536503602794777, -100.84589246730756),
         LatLng(20.528739906402944, -100.8485941914663),
         LatLng(20.526135094204488, -100.84938523754356),
         LatLng(20.51886246718435, -100.83744184678146),
@@ -46,6 +46,10 @@ class _MapsScreenState extends State<MapScreenPinos> {
         LatLng(20.519676366400574, -100.82487301541842),
         LatLng(20.51945028372864, -100.81334488102362),
         LatLng(20.519088550756734, -100.80925719467488),
+        LatLng(20.519214152578048, -100.80532507609462),
+        LatLng(20.51912688941401, -100.79546105071717),
+        LatLng(20.517939947377513, -100.79107027475112),
+        LatLng(20.516309614128616, -100.78462760860214),
       ],
     ),
   ];
@@ -73,11 +77,11 @@ class _MapsScreenState extends State<MapScreenPinos> {
         infoWindow: InfoWindow(title: 'Parada PETCO')),
     Marker(
         markerId: MarkerId('6'),
-        position: LatLng(20.501572001343213, -100.81223175185038),
+        position: LatLng(20.54472793348819, -100.77973650538105),
         infoWindow: InfoWindow(title: 'Parada Farmacia Guadalajara - Olivos')),
     Marker(
       markerId: MarkerId('7'),
-      position: LatLng(20.50875121516274, -100.81420298790705),
+      position: LatLng(20.54676401569741, -100.78014141714964),
       infoWindow: InfoWindow(title: 'Parada GYM CENTER'),
     ),
     Marker(
@@ -118,7 +122,7 @@ class _MapsScreenState extends State<MapScreenPinos> {
         infoWindow: InfoWindow(title: 'Parada Colonia Pinos')),
     Marker(
         markerId: MarkerId('17'),
-        position: LatLng(20.53671463432787, -100.81247973826676),
+        position: LatLng(20.536503602794777, -100.84589246730756),
         infoWindow: InfoWindow(title: 'Tribunal de Justicia')),
     Marker(
         markerId: MarkerId('18'),
