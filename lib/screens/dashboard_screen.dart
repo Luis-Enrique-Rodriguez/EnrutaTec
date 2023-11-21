@@ -49,21 +49,22 @@ class DashboardScreenState extends State<DashboardScreen> {
         body: Column(
           children: [
             buildCustomCard(
+              
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               '23',
               'San Jose > Roque', 
-              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               ),
             buildCustomCard(
+              
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               '43',
               'Honda - Romeral -  CD. Industrial', 
-              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-              
               ),
             buildCustomCard(
-              '60',
-              'Circuito Centro Norte', 
+               
               'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-              
+              '60',
+              'Circuito Centro Norte',
               ),
               
           ],

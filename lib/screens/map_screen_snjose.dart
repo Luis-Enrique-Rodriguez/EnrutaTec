@@ -105,7 +105,7 @@ class _MapsScreenState extends State<MapScreenSanJose> {
       appBar: AppBar(
         title: const Text(
           'Ruta Romeral',
-          style: TextStyle(color: Color.fromARGB(255, 240, 6, 6), fontSize: 16),
+          style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 16),
         ),
       ),
       body: GoogleMap(
