@@ -16,7 +16,8 @@ class _MapsScreenState extends State<MapScreenPinos> {
   static const LatLng sourceLocation =
       LatLng(20.520385136074694, -100.81485567150284);
 
-  List<Marker> _marker = [];
+  final List<Polyline> _polylines = [];
+  final List<Marker> _marker = [];
   final List<Marker> _list = const [
     Marker(
         markerId: MarkerId('1'),
@@ -143,6 +144,7 @@ class _MapsScreenState extends State<MapScreenPinos> {
   @override
   void initState() {
     _marker.addAll(_list);
+    _polylines.addAll(_marker as Iterable<Polyline>);
     super.initState();
   }
 
