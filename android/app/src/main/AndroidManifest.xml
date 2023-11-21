@@ -39,7 +39,7 @@
 
         
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAz8CbhymY9pUKT9zZpoL4mjRuXzfD8NKo"/>
+            android:value="AIzaSyDWAdl60olZFEJD9Y-dVP7czesW5v2AMSQ"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
    	    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
@@ -65,6 +65,8 @@
     </application>
     
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
 
 </manifest>
