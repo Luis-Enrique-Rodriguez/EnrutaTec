@@ -36,3 +36,10 @@ Future<List> getAllRutasList () async{
     });
     return ruta;
   }
+
+/*Future <List> getRuta(String id) async {
+  List ruta = [];
+  CollectionReference collectionReference = firebase.collection('ruta');
+  final _rutaID = collectionReference.doc().get(23);
+  return ruta;
+}*/

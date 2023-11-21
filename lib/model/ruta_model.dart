@@ -2,12 +2,12 @@ class RutaModel{
 
   String? idRuta;
   String? nameRuta;
-  String? dscRuta;
+  String? imgRuta;
 
 RutaModel({
   this.idRuta, 
   this.nameRuta,
-  this.dscRuta
+  this.imgRuta
   });
 
   /*factory RutaModel.fromMap(Map<String, dynamic>map){

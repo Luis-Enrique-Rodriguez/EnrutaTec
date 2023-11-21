@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/ruta_firebase.dart';
 import 'package:enrutatec/screens/login_screen.dart';
 import 'package:enrutatec/screens/map_screen.dart';
+import 'package:enrutatec/widgets/CardRutaWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,8 +46,118 @@ class DashboardScreenState extends State<DashboardScreen> {
         title: Text('EnrutaTec'),
       ),
         drawer: createDrawer(),
-        body:
-        FutureBuilder(
+        body: Column(
+          children: [
+            buildCustomCard(
+              '23',
+              'San Jose > Roque', 
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+              ),
+            buildCustomCard(
+              '43',
+              'Honda - Romeral -  CD. Industrial', 
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+              
+              ),
+            buildCustomCard(
+              '60',
+              'Circuito Centro Norte', 
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+              
+              ),
+              
+          ],
+        )
+          
+
+      /*StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('ruta').doc('23').snapshots(), 
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if(snapshot.hasError){
+          return Center(
+            child: Text('Error'),
+          );
+        }
+        if(snapshot.connectionState == ConnectionState.active){
+          Map<String, dynamic> data = 
+          snapshot.data!.data() as Map<String, dynamic>;
+          return Card(
+             child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                       children: [
+                         Image.network(data['img'],
+                              width: 100, 
+                              height: 100,),
+                       SizedBox(width: 20,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(data['ruta']),
+                            Text(data['nombre']),
+                            ],
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen())) ,
+                            child: Icon(Icons.map)
+                        )
+                      ],
+                        ),
+                    ),
+          );
+          /*return Center(
+            child: Text(data['nombre'], 
+            style: 
+            TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold
+            ),
+            ),
+          );*/
+        }
+
+         return Center(
+            child: CircularProgressIndicator()
+          );
+
+      },
+    ),*/ 
+
+/*StreamBuilder(
+        stream: _rutasFirebase!.getAllRutas(),
+        builder: (context, AsyncSnapshot snapshot,) {
+          if (snapshot.hasData){
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  Text(snapshot.data!.docs[index].get('nombre')), 
+                  Image.network(snapshot.data!.docs[index].get('img')),
+                  Text(snapshot.data!.docs[index].get('numero')),
+                  snapshot.data!.docs[index].get('nombre'),
+                );
+                /*return Column(
+                  children: [
+                    Image.network(snapshot.data!.docs[index].get('img')),
+                    Text(snapshot.data!.docs[index].get('numero')),
+                    Text(snapshot.data!.docs[index].get('nombre')),
+                  ]
+                );*/
+              },
+            );
+          }else{
+            if(snapshot.hasError) {
+            return Center (child: Text('Error'),);
+            }else{
+              return Center (child: CircularProgressIndicator());
+            }
+          }
+        },
+      ),*/
+
+        /*FutureBuilder(
           future: getAllRutasList(), 
           builder: ((context, snapshot) {
             if(snapshot.hasData){
@@ -54,9 +166,8 @@ class DashboardScreenState extends State<DashboardScreen> {
               itemBuilder: (context, index) {
                 return Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
                     child: Row(
-                     
                        children: [
                          Image.network(snapshot.data?[index]['img'],
                               width: 100, 
@@ -87,42 +198,16 @@ class DashboardScreenState extends State<DashboardScreen> {
             }
           }
         )
-      /*StreamBuilder(
-        stream: _rutasFirebase!.getAllRutas(),
-        builder: (context, AsyncSnapshot snapshot,) {
-          if (snapshot.hasData){
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                return CardRutaWidget(
-                  
-                  //snapshot.data!.docs[index].get('nombre') 
-                  //Image.network(snapshot.data!.docs[index].get('img')),
-                  //Text(snapshot.data!.docs[index].get('numero')),
-                  //snapshot.data!.docs[index].get('nombre'),
-                );
-                /*return Column(
-                  children: [
-                    Image.network(snapshot.data!.docs[index].get('img')),
-                    Text(snapshot.data!.docs[index].get('numero')),
-                    Text(snapshot.data!.docs[index].get('nombre')),
-                  ]
-                );*/
-              },
-            );
-          }else{
-            if(snapshot.hasError) {
-            return Center (child: Text('Error'),);
-            }else{
-              return Center (child: CircularProgressIndicator());
-            }
-          }
-        },
-      ),*/
+      
         
-        )
+        )*/
     );
+
+
+    
   }
+
+  
 
 Widget createDrawer() {
     return Drawer(
@@ -131,6 +216,7 @@ Widget createDrawer() {
           UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
                 backgroundImage: _user.imageUrl != null ? NetworkImage(_user.imageUrl!) : NetworkImage('https://i.pravatar.cc/300'),
+                
               ),
               accountName: _user.name !=null ? Text(_user.name!) : Text('Buenas tardes'),
               accountEmail: _user.email !=null ? Text(_user.email!) : Text('Bienvenido')
@@ -190,6 +276,8 @@ _logoutFB() async {
     _accessToken = null;
     _userData = null;
     setState(() {
+      _userData = null;
+      _accessToken = null;
       Navigator.pushNamed(context, '/logout');
     });
   }
@@ -216,34 +304,36 @@ _logoutFB() async {
     );
   }*/
 
-/*
- StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('ruta').doc('23').snapshots(), 
-      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if(snapshot.hasError){
-          return Center(
-            child: Text('Error'),
-          );
-        }
-        if(snapshot.connectionState == ConnectionState.active){
-          Map<String, dynamic> data = 
-          snapshot.data!.data() as Map<String, dynamic>;
-          return Center(
-            child: Text(data['Nombre'], 
-            style: 
-            TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold
+Card buildCustomCard(String imageUrl, String number, String routeName) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Image.network(
+              imageUrl,
+              width: 100,
+              height: 100,
             ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(number),
+                Text(routeName),
+              ],
             ),
-          );
-        }
-
-         return Center(
-            child: Text('Loading'),
-          );
-
-      },
-    ), 
-*/
+            Spacer(),
+            GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen())),
+              child: Icon(Icons.map),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+ 
+
