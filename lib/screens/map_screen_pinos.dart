@@ -153,8 +153,8 @@ class _MapsScreenState extends State<MapScreenPinos> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Ruta Pinos',
-          style: TextStyle(color: Color.fromARGB(255, 240, 6, 6), fontSize: 16),
+          ' Circuito Centro Norte',
+          style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
       body: GoogleMap(

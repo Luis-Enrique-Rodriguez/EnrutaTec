@@ -4,6 +4,8 @@ import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/ruta_firebase.dart';
 import 'package:enrutatec/screens/login_screen.dart';
 import 'package:enrutatec/screens/map_screen.dart';
+import 'package:enrutatec/screens/map_screen_pinos.dart';
+import 'package:enrutatec/screens/map_screen_snjose.dart';
 import 'package:enrutatec/widgets/CardRutaWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -49,22 +51,24 @@ class DashboardScreenState extends State<DashboardScreen> {
         body: Column(
           children: [
             buildCustomCard(
-              
               'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               '23',
-              'San Jose > Roque', 
+              'San Jose > Roque',
+              () => navigateTo23(context) 
               ),
             buildCustomCard(
               
               'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               '43',
               'Honda - Romeral -  CD. Industrial', 
+              () => navigateTo43(context) 
               ),
             buildCustomCard(
                
               'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
               '60',
               'Circuito Centro Norte',
+              () => navigateTo60(context) 
               ),
               
           ],
@@ -305,7 +309,7 @@ _logoutFB() async {
     );
   }*/
 
-Card buildCustomCard(String imageUrl, String number, String routeName) {
+Card buildCustomCard(String imageUrl, String number, String routeName, VoidCallback onTap) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -327,13 +331,26 @@ Card buildCustomCard(String imageUrl, String number, String routeName) {
             ),
             Spacer(),
             GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen())),
+              onTap: onTap,
               child: Icon(Icons.map),
             ),
           ],
         ),
       ),
     );
+}
+
+  void navigateTo23(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreenSanJose()));
+  }
+
+  void navigateTo43(BuildContext context) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen()));
+  }
+
+  void navigateTo60(BuildContext context) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreenPinos()));
+
   }
 }
  

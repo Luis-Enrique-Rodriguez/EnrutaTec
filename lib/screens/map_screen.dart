@@ -122,8 +122,8 @@ class _MapsScreenState extends State<MapsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Ruta Romeral',
-          style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 16),
+          'Honda - Romeral - CD. Industrial',
+          style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
       body: GoogleMap(
