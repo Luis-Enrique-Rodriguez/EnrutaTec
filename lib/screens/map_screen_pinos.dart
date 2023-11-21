@@ -16,7 +16,39 @@ class _MapsScreenState extends State<MapScreenPinos> {
   static const LatLng sourceLocation =
       LatLng(20.520385136074694, -100.81485567150284);
 
-  final List<Polyline> _polylines = [];
+  final List<Polyline> _polylines = [
+    const Polyline(
+      polylineId: PolylineId('1'),
+      color: Colors.blue,
+      width: 5,
+      points: [
+        LatLng(20.51338430449555, -100.78155391718857),
+        LatLng(20.516569833939013, -100.77950595953261),
+        LatLng(20.524833312228726, -100.77775572263678),
+        LatLng(20.533121690382313, -100.77665505818739),
+        LatLng(20.539302597554173, -100.778385771337),
+        LatLng(20.501572001343213, -100.81223175185038),
+        LatLng(20.50875121516274, -100.81420298790705),
+        LatLng(20.548891159539394, -100.78104721406366),
+        LatLng(20.54926140264817, -100.78485204675675),
+        LatLng(20.550275133714727, -100.79597597528547),
+        LatLng(20.55214465156337, -100.81536279303148),
+        LatLng(20.55277012637329, -100.82186538530817),
+        LatLng(20.553224100313912, -100.82363885963825),
+        LatLng(20.554298019137274, -100.83157877708966),
+        LatLng(20.54877859903943, -100.84082891303945),
+        LatLng(20.544253157046878, -100.84267642620314),
+        LatLng(20.53671463432787, -100.81247973826676),
+        LatLng(20.528739906402944, -100.8485941914663),
+        LatLng(20.526135094204488, -100.84938523754356),
+        LatLng(20.51886246718435, -100.83744184678146),
+        LatLng(20.51924429698621, -100.82982437312268),
+        LatLng(20.519676366400574, -100.82487301541842),
+        LatLng(20.51945028372864, -100.81334488102362),
+        LatLng(20.519088550756734, -100.80925719467488),
+      ],
+    ),
+  ];
   final List<Marker> _marker = [];
   final List<Marker> _list = const [
     Marker(
@@ -144,7 +176,6 @@ class _MapsScreenState extends State<MapScreenPinos> {
   @override
   void initState() {
     _marker.addAll(_list);
-    _polylines.addAll(_marker as Iterable<Polyline>);
     super.initState();
   }
 
@@ -158,6 +189,7 @@ class _MapsScreenState extends State<MapScreenPinos> {
         ),
       ),
       body: GoogleMap(
+        polylines: Set<Polyline>.of(_polylines),
         mapType: MapType.normal,
         initialCameraPosition: const CameraPosition(
           target: sourceLocation,
