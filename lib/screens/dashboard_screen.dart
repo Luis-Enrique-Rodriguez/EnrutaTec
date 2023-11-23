@@ -25,6 +25,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   final FirebaseUser _user = FirebaseUser();
   final AuthServiceGoogle _auth = AuthServiceGoogle();
   AccessToken? _accessToken;
+  
   Map<String, dynamic>? _userData;
 
   void logout() async {

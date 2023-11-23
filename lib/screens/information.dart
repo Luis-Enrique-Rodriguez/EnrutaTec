@@ -11,7 +11,8 @@ class _InformationScreenState extends State<InformationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      body: Text("Hola")
     );
   }
+
 }
