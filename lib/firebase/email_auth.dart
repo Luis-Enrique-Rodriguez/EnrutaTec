@@ -29,4 +29,8 @@ class EmailAuth {
       return false;
     }
   }
+
+  Future signOut() async {
+    auth.signOut();
+  }
 }
