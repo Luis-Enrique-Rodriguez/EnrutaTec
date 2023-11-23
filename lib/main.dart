@@ -17,7 +17,7 @@ Future<void> main() async {
   FirebaseAuth.instance.authStateChanges();
   SharedPreferences guardar = await SharedPreferences.getInstance();
   initScreen = await guardar.getInt('initScreen');
-  await guardar.setInt('initScreen',1);
+  await guardar.setInt('initScreen', 1);
   runApp(MainApp());
 }
 
@@ -29,7 +29,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  
   @override
   void initState() {
     super.initState();
@@ -39,16 +38,17 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-
-      valueListenable: globalValues.flagTheme, 
-      builder: (context, value, _){
+      valueListenable: globalValues.flagTheme,
+      builder: (context, value, _) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: OnBoarding(),
-          theme: value ? StylesApp.darkTheme(context) : StylesApp.lightTheme(context),
-          initialRoute: initScreen == 0 || initScreen == null ? '/onboard' : '/login',
-          routes : getRoutes()
-        );
+            debugShowCheckedModeBanner: false,
+            home: OnBoarding(),
+            theme: value
+                ? StylesApp.darkTheme(context)
+                : StylesApp.lightTheme(context),
+            initialRoute:
+                initScreen == 0 || initScreen == null ? '/onboard' : '/login',
+            routes: getRoutes());
       },
     );
   }
