@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 final btnEntrar = FloatingActionButton.extended(
       icon: Icon(Icons.login),
       label: Text('Entrar'),
+      
       backgroundColor: Color.fromARGB(255, 12, 144, 221),
       onPressed: () async {
         bool res = await emailAuth.validateUser(emailUser: txtConUser.text, pwdUser: txtConPass.text);
@@ -77,8 +78,7 @@ final btnEntrar = FloatingActionButton.extended(
          showDialog(context: context, 
           builder: (BuildContext context){
             return AlertDialog(
-              title: Text('Error \n - Los campos no pueden estar vacíos \n - Correo o Contraseña Incorrectos', style: TextStyle(fontSize: 16),),
-              
+              title: Text('Error \n - Los campos no pueden estar vacíos \n - Correo o Contraseña Incorrectos', style: TextStyle(fontSize: 10),),
               icon: Icon(Icons.warning),
               actions: [
               Align(
@@ -109,7 +109,7 @@ final sessionCheckbox = Checkbox(
     );
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      //backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: ListView(
         padding: EdgeInsets.symmetric(
           horizontal: 40.0,
@@ -126,7 +126,7 @@ final sessionCheckbox = Checkbox(
               ),
               CircleAvatar(
                 radius: 100.0,
-                backgroundColor: Colors.transparent,
+                backgroundColor: Color.fromARGB(11, 255, 255, 255),
                 backgroundImage: AssetImage('images/autobus.gif'),
               ),
               Text(
@@ -145,10 +145,9 @@ final sessionCheckbox = Checkbox(
                 decoration: InputDecoration(
                   hintText: 'Correo',
                   labelText: 'Correo',
-                  fillColor: Colors.black,
                   suffix: Icon(
                     Icons.verified_user
-                  ),
+                  ) ,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0)
                   )
