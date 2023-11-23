@@ -33,30 +33,16 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-<<<<<<< HEAD
+
       valueListenable: globalValues.flagTheme, 
       builder: (context, value, _){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: DashboardScreen(), //LoginScreen(),
+          home: OnBoarding(), //DashboardScreen(), //LoginScreen(),
           routes: getRoutes(),
           theme: value ? StylesApp.darkTheme(context) : StylesApp.lightTheme(context)
         );
       }
     );
-=======
-        valueListenable: globalValues.flagTheme,
-        builder: (context, value, _) {
-          return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              //home: DashboardScreen(),
-              //home: LoginScreen(),
-              home: const OnBoarding(),
-              routes: getRoutes(),
-              theme: value
-                  ? StylesApp.darkTheme(context)
-                  : StylesApp.lightTheme(context));
-        });
->>>>>>> 779792df80f598085dc83f4d269a2337c61fb540
   }
 }
