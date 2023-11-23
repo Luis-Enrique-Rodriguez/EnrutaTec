@@ -57,4 +57,9 @@ class EmailAuth {
     final User user = (await auth.signInWithCredential(credential)).user!;
     return user;
   }
+  
+  Future signOut() async {
+    auth.signOut();
+    }
+  
 }

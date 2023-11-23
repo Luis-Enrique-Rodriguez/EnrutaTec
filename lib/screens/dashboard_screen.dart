@@ -223,7 +223,7 @@ class DashboardScreenState extends State<DashboardScreen> {
             leading: Icon(Icons.person),
             trailing: Icon(Icons.chevron_right),
             title: Text('Perfil'),
-            onTap: () => Navigator.pushNamed(context, '/profile'),
+            onTap: () => Navigator.pushNamed(context, '/settings'),
           ),
           ListTile(
             leading: Icon(Icons.info),

@@ -20,6 +20,10 @@ Map<String, WidgetBuilder> getRoutes() {
     '/60': (BuildContext context) => MapScreenPinos(),
     '/23': (BuildContext context) => MapScreenSanJose(),
     '/login': (BuildContext context) => LoginScreen(),
+
     '/onboard' : (BuildContext context) => OnBoarding()
+
+    //'/settings': (BuildContext context) => EditProfile(),
+
   };
 }
