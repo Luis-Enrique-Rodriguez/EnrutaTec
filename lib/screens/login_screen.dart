@@ -216,7 +216,7 @@ final sessionCheckbox = Checkbox(
             children: [
               _login(),
               _loginFB(),
-              _loginGh(),
+              //_loginGh(),
               btnEntrar
             ],
           ),
@@ -278,14 +278,14 @@ final sessionCheckbox = Checkbox(
 ElevatedButton _loginGh() {
     return ElevatedButton.icon(icon: Icon(Icons.login), label: Text('Sign with GitHub'), onPressed: () async{ 
       setState(() {
-        _loginGH();
+        //_loginGH();
         //Navigator.pushNamed(context, '/dash');
       });
     });
   }
 
 
-  _loginGH() async{
+  /*_loginGH() async{
     const String url =
         "https://github.com/login/oauth/authorize?client_id=1909009eb9d726bcead9&scope=public_repo%20read:user%20user:email";
     if (await canLaunch(url)) {
@@ -304,7 +304,7 @@ ElevatedButton _loginGh() {
       });
       print("CANNOT LAUNCH THIS URL!");
     }
-  }
+  }*/
   /*Column _logged() {
     return Column(
       children: [

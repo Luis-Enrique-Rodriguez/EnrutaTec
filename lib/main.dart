@@ -47,10 +47,7 @@ class _MainAppState extends State<MainApp> {
           home: OnBoarding(),
           theme: value ? StylesApp.darkTheme(context) : StylesApp.lightTheme(context),
           initialRoute: initScreen == 0 || initScreen == null ? '/onboard' : '/login',
-          routes : {
-            '/login' : (context) => LoginScreen(),
-            '/onboard' : (context) => OnBoarding()
-          }
+          routes : getRoutes()
         );
       },
     );
