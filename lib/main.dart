@@ -36,7 +36,7 @@ class _MainAppState extends State<MainApp>{
       builder: (context, value, _){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: DashboardScreen(),//LoginScreen(),
+          home: DashboardScreen(), //LoginScreen(),
           routes: getRoutes(),
           theme: value ? StylesApp.darkTheme(context) : StylesApp.lightTheme(context)
         );

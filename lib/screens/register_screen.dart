@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               var email = conEmailUser.text;
               var pwd = conPwdUser.text;
               emailAuth.createUser(emailUser: email, pwdUser: pwd);
-              
+              //Navigator.pushNamed(context, '/login');
             }, 
             child: Text('Registrar'))
           ]
