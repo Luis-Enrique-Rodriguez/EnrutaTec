@@ -14,7 +14,7 @@ import 'package:enrutatec/assets/global_values.dart';
 import 'package:enrutatec/model/firebase_user.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen( {super.key});
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => DashboardScreenState();
@@ -43,39 +43,32 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-       appBar: AppBar(
-        title: Text('EnrutaTec'),
-      ),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('EnrutaTec'),
+        ),
         drawer: createDrawer(),
         body: Column(
           children: [
             buildCustomCard(
-              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-              '23',
-              'San Jose > Roque',
-              () => navigateTo23(context) 
-              ),
+                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+                '23',
+                'San Jose > Roque',
+                () => navigateTo23(context)),
             buildCustomCard(
-              
-              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-              '43',
-              'Honda - Romeral -  CD. Industrial', 
-              () => navigateTo43(context) 
-              ),
+                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+                '43',
+                'Honda - Romeral -  CD. Industrial',
+                () => navigateTo43(context)),
             buildCustomCard(
-               
-              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-              '60',
-              'Circuito Centro Norte',
-              () => navigateTo60(context) 
-              ),
-              
+                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
+                '60',
+                'Circuito Centro Norte',
+                () => navigateTo60(context)),
           ],
         )
-          
 
-      /*StreamBuilder<DocumentSnapshot>(
+        /*StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance.collection('ruta').doc('23').snapshots(), 
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if(snapshot.hasError){
@@ -128,7 +121,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           );
 
       },
-    ),*/ 
+    ),*/
 
 /*StreamBuilder(
         stream: _rutasFirebase!.getAllRutas(),
@@ -206,48 +199,46 @@ class DashboardScreenState extends State<DashboardScreen> {
       
         
         )*/
-    );
-
-
-    
+        );
   }
 
-  
-
-Widget createDrawer() {
+  Widget createDrawer() {
     return Drawer(
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
-                backgroundImage: _user.imageUrl != null ? NetworkImage(_user.imageUrl!) : NetworkImage('https://i.pravatar.cc/300'),
-                
+                backgroundImage: _user.imageUrl != null
+                    ? NetworkImage(_user.imageUrl!)
+                    : NetworkImage('https://i.pravatar.cc/300'),
               ),
-              accountName: _user.name !=null ? Text(_user.name!) : Text('Buenas tardes'),
-              accountEmail: _user.email !=null ? Text(_user.email!) : Text('Bienvenido')
-              )  ,
+              accountName: _user.name != null
+                  ? Text(_user.name!)
+                  : Text('Buenas tardes'),
+              accountEmail: _user.email != null
+                  ? Text(_user.email!)
+                  : Text('Bienvenido')),
           ListTile(
             leading: Icon(Icons.person),
             trailing: Icon(Icons.chevron_right),
             title: Text('Perfil'),
-            onTap: () => Navigator.pushNamed(context, '/profile'), 
+            onTap: () => Navigator.pushNamed(context, '/profile'),
           ),
           ListTile(
             leading: Icon(Icons.info),
             trailing: Icon(Icons.chevron_right),
             title: Text('Información'),
-            onTap: () => Navigator.pushNamed(context, '/information'), 
+            onTap: () => Navigator.pushNamed(context, '/information'),
           ),
           DayNightSwitcher(
             isDarkModeEnabled: globalValues.flagTheme.value,
             onStateChanged: (isDarkModeEnabled) {
-            globalValues.flagTheme.value = isDarkModeEnabled;
-            globalValues().saveValue(isDarkModeEnabled);
+              globalValues.flagTheme.value = isDarkModeEnabled;
+              globalValues().saveValue(isDarkModeEnabled);
             },
           ),
           ListTile(
-            leading: Icon(
-                Icons.logout), // Ícono de cerrar sesión
+            leading: Icon(Icons.logout), // Ícono de cerrar sesión
             title: Text('Cerrar sesión'),
             onTap: () {
               logout(); // Llama a la función logout al hacer clic en "Cerrar sesión"
@@ -260,23 +251,23 @@ Widget createDrawer() {
     );
   }
 
-void _handleLogOut() async {
-  await _auth.signOutGoogle();
-  Navigator.pushReplacementNamed(context, '/logout');
-  setState(() {
-    _user.user = _auth.user;
-    Navigator.pushNamed(context, '/logout');
-  });
-}
+  void _handleLogOut() async {
+    await _auth.signOutGoogle();
+    Navigator.pushReplacementNamed(context, '/logout');
+    setState(() {
+      _user.user = _auth.user;
+      Navigator.pushNamed(context, '/logout');
+    });
+  }
 
-void _handleLogin() async {
-  await _auth.signInGoogle();
-  setState(() {
-    _user.user = _auth.user;
-  });
-}
+  void _handleLogin() async {
+    await _auth.signInGoogle();
+    setState(() {
+      _user.user = _auth.user;
+    });
+  }
 
-_logoutFB() async {
+  _logoutFB() async {
     await FacebookAuth.instance.logOut();
     _accessToken = null;
     _userData = null;
@@ -309,7 +300,8 @@ _logoutFB() async {
     );
   }*/
 
-Card buildCustomCard(String imageUrl, String number, String routeName, VoidCallback onTap) {
+  Card buildCustomCard(
+      String imageUrl, String number, String routeName, VoidCallback onTap) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -338,20 +330,20 @@ Card buildCustomCard(String imageUrl, String number, String routeName, VoidCallb
         ),
       ),
     );
-}
+  }
 
   void navigateTo23(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreenSanJose()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MapScreenSanJose()));
   }
 
   void navigateTo43(BuildContext context) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MapsScreen()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MapsScreen()));
   }
 
   void navigateTo60(BuildContext context) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreenPinos()));
-
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MapScreenPinos()));
   }
 }
- 
-
