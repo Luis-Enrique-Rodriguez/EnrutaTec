@@ -22,7 +22,7 @@ Map<String, WidgetBuilder> getRoutes() {
     '/23': (BuildContext context) => MapScreenSanJose(),
     '/login': (BuildContext context) => LoginScreen(),
     '/onboard' : (BuildContext context) => OnBoarding(),
-    '/settings' : (BuildContext context) => EditProfile()
+    '/settings' : (BuildContext context) => ProfileScreen()
 
   };
 }

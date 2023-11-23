@@ -1,22 +1,50 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PushNotificationProvider {
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+Future<void> handleBackgroundMessage(RemoteMessage message) async{
+  print('Title: ${message.notification?.title}');
+  print('Title: ${message.notification?.body}');
+  print('Title: ${message.data}');
+}
 
-  initNotifications() async {
-    await firebaseMessaging.requestPermission();
-    LocalNotifications.initialize();
-    FirebaseMessaging.onMessage.listen((message) {
-      LocalNotifications.showBigTextNotification(
-        title: 'Se te va el camion!',
-        body: 'Corre a tu parada mas cercana!',
-      );
-    });
+class PushNotificationProvider {
+  final _firebaseMessaging = FirebaseMessaging.instance;
+  static String? token;
+
+Future<void> initializeApp() async {
+  await _firebaseMessaging.requestPermission();
+  final token = await _firebaseMessaging.getToken();
+  print('Token: $token');
+  FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+}
+
+void handleMessage(RemoteMessage? message) {
+  if(message == null) return;
+
+
+}  
+
+Future initPushNotifications() async {
+  FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+
+  FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+}
+
+  
+    //FirebaseMessaging.instance.getInitialMessage().then((handleMessage));
+    //FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    //LocalNotifications.initialize();
+    //FirebaseMessaging.onMessage.listen((message) {
+      //LocalNotifications.showBigTextNotification(
+      //  title: 'Se te va el camion!',
+      //  body: 'Corre a tu parada mas cercana!',
+      //);
+    //});
   }
 
-  addNewSubscription(String topic) async {
+  /*addNewSubscription(String topic) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('currentSub')) {
       var currentTopic = prefs.getString('currentSub');
@@ -27,8 +55,8 @@ class PushNotificationProvider {
       prefs.setString('currentSub', topic);
       await firebaseMessaging.subscribeToTopic(topic);
     }
-  }
-}
+  }*/
+
 
 class LocalNotifications {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

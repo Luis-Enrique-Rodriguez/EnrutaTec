@@ -1,3 +1,4 @@
+import 'package:enrutatec/firebase/notifications.dart';
 import 'package:enrutatec/routes.dart';
 import 'package:enrutatec/screens/dashboard_screen.dart';
 import 'package:enrutatec/screens/login_screen.dart';
@@ -10,11 +11,13 @@ import '../assets/global_values.dart';
 import '../assets/styles_app.dart';
 
 int? initScreen;
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.authStateChanges();
+  await PushNotificationProvider().initializeApp();
   SharedPreferences guardar = await SharedPreferences.getInstance();
   initScreen = await guardar.getInt('initScreen');
   await guardar.setInt('initScreen',1);
