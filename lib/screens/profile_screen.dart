@@ -1,54 +1,20 @@
-import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+Future<String> profilePhoto() async {
+  // Obtener una referencia a la imagen
+  ListResult list = await FirebaseStorage.instance
+      .ref()
+      .child("/users/${FirebaseAuth.instance.currentUser?.email}/")
+      .list(ListOptions(maxResults: 1));
+  Reference items = list.items.first;
+  Reference ref = FirebaseStorage.instance.ref().child(items.fullPath);
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
+  // Obtener la URL de descarga
+  String downloadURL = await ref.getDownloadURL();
+  return downloadURL;
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  File? _image;
-
-  Future getImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Cambiar Foto de Perfil'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _image == null
-                ? Text('No has seleccionado ninguna imagen.')
-                : Image.file(
-                    _image!,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: getImage,
-              child: Text('Seleccionar Imagen'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Ahora puedes usar la URL de descarga para mostrar la imagen en tu aplicación
+  // Por ejemplo, puedes usarla con un widget Image.network:
+  // Image.network(downloadURL);
 }
