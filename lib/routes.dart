@@ -15,14 +15,13 @@ Map<String, WidgetBuilder> getRoutes() {
     '/register': (BuildContext context) => RegisterScreen(),
     '/dash': (BuildContext context) => DashboardScreen(),
     '/logout': (BuildContext context) => LoginScreen(),
-    '/profile': (BuildContext context) => ProfileScreen(),
+    //'/profile': (BuildContext context) => ProfileScreen(),
     '/information': (BuildContext context) => InformationScreen(),
     '/43': (BuildContext context) => MapsScreen(),
     '/60': (BuildContext context) => MapScreenPinos(),
     '/23': (BuildContext context) => MapScreenSanJose(),
     '/login': (BuildContext context) => LoginScreen(),
-    '/onboard' : (BuildContext context) => OnBoarding(),
-    '/settings' : (BuildContext context) => ProfileScreen()
-
+    '/onboard': (BuildContext context) => OnBoarding(),
+    '/settings': (BuildContext context) => ProfileScreen()
   };
 }
