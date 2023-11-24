@@ -1,5 +1,4 @@
 import 'package:enrutatec/screens/dashboard_screen.dart';
-import 'package:enrutatec/screens/editprofile.dart';
 import 'package:enrutatec/screens/information.dart';
 import 'package:enrutatec/screens/login_screen.dart';
 import 'package:enrutatec/screens/map_screen.dart';
@@ -15,13 +14,13 @@ Map<String, WidgetBuilder> getRoutes() {
     '/register': (BuildContext context) => RegisterScreen(),
     '/dash': (BuildContext context) => DashboardScreen(),
     '/logout': (BuildContext context) => LoginScreen(),
-    //'/profile': (BuildContext context) => ProfileScreen(),
+    //'/settings': (BuildContext context) => ProfileScreen(),
     '/information': (BuildContext context) => InformationScreen(),
     '/43': (BuildContext context) => MapsScreen(),
     '/60': (BuildContext context) => MapScreenPinos(),
     '/23': (BuildContext context) => MapScreenSanJose(),
     '/login': (BuildContext context) => LoginScreen(),
     '/onboard': (BuildContext context) => OnBoarding(),
-    '/settings': (BuildContext context) => ProfileScreen()
+    //'/editprofile': (BuildContext context) => EditProfile(),
   };
 }

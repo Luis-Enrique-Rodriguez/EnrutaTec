@@ -1,59 +1,20 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreen createState() => _ProfileScreen();
-}
+Future<String> profilePhoto() async {
+  // Obtener una referencia a la imagen
+  ListResult list = await FirebaseStorage.instance
+      .ref()
+      .child("/users/${FirebaseAuth.instance.currentUser?.email}/")
+      .list(ListOptions(maxResults: 1));
+  Reference items = list.items.first;
+  Reference ref = FirebaseStorage.instance.ref().child(items.fullPath);
 
-class _ProfileScreen extends State<ProfileScreen> {
-  File? _imageFile;
-  final picker = ImagePicker();
+  // Obtener la URL de descarga
+  String downloadURL = await ref.getDownloadURL();
+  return downloadURL;
 
-  Future pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _imageFile = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future uploadImageToFirebase(BuildContext context) async {
-    String fileName = _imageFile!.path;
-    Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('uploads/$fileName');
-    UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile!);
-    TaskSnapshot taskSnapshot = await uploadTask;
-    taskSnapshot.ref.getDownloadURL().then(
-          (value) => print("Done: $value"),
-        );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Change Profile Picture'),
-      ),
-      body: Center(
-        child: _imageFile == null
-            ? Text('No image selected.')
-            : Image.file(_imageFile!),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          pickImage();
-          uploadImageToFirebase(context);
-        },
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
-      ),
-    );
-  }
+  // Ahora puedes usar la URL de descarga para mostrar la imagen en tu aplicación
+  // Por ejemplo, puedes usarla con un widget Image.network:
+  // Image.network(downloadURL);
 }
