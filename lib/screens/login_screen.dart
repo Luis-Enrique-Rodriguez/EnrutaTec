@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:enrutatec/assets/loading.dart';
 import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/email_auth.dart';
 import 'package:enrutatec/model/firebase_user.dart';
+import 'package:enrutatec/screens/forgot_pw_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -205,6 +205,27 @@ final sessionCheckbox = Checkbox(
                 controller: txtConPass,
                 obscureText: true,
               ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return ForgotPasswordPage();
+                        },
+                        ),
+                        );
+                      },
+                      child: Text('¿Olvidaste tu contraseña?',
+                      style: TextStyle(fontSize: 15),),
+                    ),
+                  ],
+                ),
+              ),
+
               TextButton(
                   onPressed: () => Navigator.pushNamed(context, '/register'), 
                   child: const Text('¿No tienes una cuenta? Registrate', 
