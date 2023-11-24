@@ -31,32 +31,7 @@ Future initPushNotifications() async {
 
   FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
 }
-
-  
-    //FirebaseMessaging.instance.getInitialMessage().then((handleMessage));
-    //FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-    //LocalNotifications.initialize();
-    //FirebaseMessaging.onMessage.listen((message) {
-      //LocalNotifications.showBigTextNotification(
-      //  title: 'Se te va el camion!',
-      //  body: 'Corre a tu parada mas cercana!',
-      //);
-    //});
   }
-
-  /*addNewSubscription(String topic) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('currentSub')) {
-      var currentTopic = prefs.getString('currentSub');
-      await firebaseMessaging.unsubscribeFromTopic(currentTopic!);
-      prefs.setString('currentSub', topic);
-      await firebaseMessaging.subscribeToTopic(topic);
-    } else {
-      prefs.setString('currentSub', topic);
-      await firebaseMessaging.subscribeToTopic(topic);
-    }
-  }*/
-
 
 class LocalNotifications {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

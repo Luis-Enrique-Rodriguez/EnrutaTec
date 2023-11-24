@@ -264,26 +264,4 @@ final sessionCheckbox = Checkbox(
     });
   }
 
-  /*Column _logged() {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(_user.imageUrl!),
-        ),
-        Text(_user.name!),
-        Text(_user.email!),
-        ElevatedButton.icon( icon: Icon(Icons.logout), label: Text('Log Out'),
-        onPressed: ()async {
-          await _auth.signOutGoogle();
-          Navigator.pushReplacementNamed(context, '/logout');
-          setState(() {
-            _user.user= _auth.user;
-            Navigator.pushNamed(context, '/logout');
-          });
-        },
-        )
-      ],
-    );
-  }*/
-
 }
