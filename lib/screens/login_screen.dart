@@ -22,9 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   AccessToken? _accessToken;
   bool isSessionSaved = false;
   Map<String, dynamic>? _userData;
-  late StreamSubscription _subs;
 
-  bool loader = false;
+  //bool loader = false;
   final FirebaseUser _user = FirebaseUser();
   final AuthServiceGoogle _auth = AuthServiceGoogle();
   bool _checking = false;
@@ -33,35 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     checkSavedSession();
-    loader = false;
-    _initDeepLinkListener();
+    //loader = false;
     _user.user = _auth.user;
-    
-  }
-
- void _initDeepLinkListener() async {
-    _subs = getLinksStream().listen((link) {
-      _checkDeepLink(link!);
-    }, cancelOnError: true);
-  }
-
-  void _checkDeepLink(String link) {
-    if (link != null) {
-      String code = link.substring(link.indexOf(RegExp('code=')) + 5);
-      emailAuth.signInWithGithub(code).then((firebaseUser) {
-        print(firebaseUser.email);
-        print(firebaseUser.photoURL);
-        print("LOGGED IN AS: ${firebaseUser.displayName}");
-      }).catchError((e) {
-        print("LOGIN ERROR: " + e.toString());
-      });
-    }
-  }
-
-  void _disposeDeepLinkListener() {
-    if (_subs != null) {
-      _subs.cancel();
-    }
   }
 
   void checkSavedSession() async {
@@ -69,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final accessToken = await FacebookAuth.instance.accessToken;
     setState(() {
       _checking = false;
-      
     });
     if(accessToken != null){
       print(accessToken.toJson());
@@ -86,8 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacementNamed(context, '/dash'); 
     }
   }
-
-
 
   void saveSession(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -295,37 +264,6 @@ final sessionCheckbox = Checkbox(
     });
   }
 
-
-ElevatedButton _loginGh() {
-    return ElevatedButton.icon(icon: Icon(Icons.login), label: Text('Sign with GitHub'), onPressed: () async{ 
-      setState(() {
-        //_loginGH();
-        //Navigator.pushNamed(context, '/dash');
-      });
-    });
-  }
-
-
-  /*_loginGH() async{
-    const String url =
-        "https://github.com/login/oauth/authorize?client_id=1909009eb9d726bcead9&scope=public_repo%20read:user%20user:email";
-    if (await canLaunch(url)) {
-      setState(() {
-        loader = true;
-      });
-      // ignore: deprecated_member_use
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-      );
-    } else {
-      setState(() {
-        loader = false;
-      });
-      print("CANNOT LAUNCH THIS URL!");
-    }
-  }*/
   /*Column _logged() {
     return Column(
       children: [
