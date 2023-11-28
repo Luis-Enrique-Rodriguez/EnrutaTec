@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:enrutatec/model/github.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:github_sign_in_plus/github_sign_in_plus.dart';
 import 'package:enrutatec/assets/loading.dart';
 import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/email_auth.dart';
@@ -7,8 +10,7 @@ import 'package:enrutatec/screens/forgot_pw_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -18,14 +20,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool? marcado = false;
+  final gitLogin = GitHubLogin();
   final emailAuth = new EmailAuth();
   AccessToken? _accessToken;
   bool isSessionSaved = false;
   Map<String, dynamic>? _userData;
+  String? UsuarioAct, FotoPerfil, EmailAct;
 
   //bool loader = false;
   final FirebaseUser _user = FirebaseUser();
   final AuthServiceGoogle _auth = AuthServiceGoogle();
+
   bool _checking = false;
 
 @override
@@ -68,8 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController txtConUser = TextEditingController();
     TextEditingController txtConPass = TextEditingController();
 
-
-
 final btnEntrar = FloatingActionButton.extended(
       icon: Icon(Icons.login),
       label: Text('Entrar'),
@@ -110,6 +114,32 @@ final sessionCheckbox = Checkbox(
 
         });
       },
+    );
+
+final btnGit = ElevatedButton(
+      onPressed: () async{
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('Recuerdame', marcado ?? false);
+        UserCredential userCredential = await gitLogin.signInGit(); 
+        UsuarioAct = userCredential.additionalUserInfo!.profile!['login'] as String?;
+        FotoPerfil = userCredential.user!.photoURL;
+        EmailAct = userCredential.user!.email;
+        //prefs.setString('User', UsuarioAct!);
+        prefs.setString('Foto', FotoPerfil!);
+        //prefs.setString('Email', EmailAct!);
+        Navigator.pushNamed(context, '/dash');
+      },  
+      style: ButtonStyle( 
+        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 36, 36, 43)),
+      ),
+      child: //const Icon(Icons.gite, color: Colors.white,),
+        Row(
+          children: [
+            Icon(Icons.login),
+            SizedBox(width: 8,),
+            const Text("Sign with Github", style: TextStyle(fontFamily: "Quicksand")),
+          ],
+        )
     );
 
     return Scaffold(
@@ -206,7 +236,7 @@ final sessionCheckbox = Checkbox(
             children: [
               _login(),
               _loginFB(),
-              //_loginGh(),
+              btnGit,
               btnEntrar
             ],
           ),
