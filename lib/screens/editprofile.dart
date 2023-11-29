@@ -15,6 +15,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController txtConEmail = TextEditingController();
   File? _image;
   final picker = ImagePicker();
+  String? _uploadedFileURL;
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -33,8 +34,10 @@ class _EditProfileState extends State<EditProfile> {
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("images/" + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(_image!);
-    await uploadTask.whenComplete(() {
+    await uploadTask.whenComplete(() async {
       print('File Uploaded');
+      _uploadedFileURL = await ref.getDownloadURL();
+      print(_uploadedFileURL);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('File Uploaded')));
     });
@@ -94,7 +97,9 @@ class _EditProfileState extends State<EditProfile> {
               btnFoto,
               space,
               btnSave,
-              _image == null ? Text('No image selected.') : Image.file(_image!),
+              _uploadedFileURL == null
+                  ? Text('No image uploaded.')
+                  : Image.network(_uploadedFileURL!),
             ],
           ),
         ),
