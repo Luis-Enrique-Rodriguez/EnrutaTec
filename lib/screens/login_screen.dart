@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
@@ -34,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _checking = false;
 
-@override
+  @override
   void initState() {
     super.initState();
     checkSavedSession();
@@ -48,19 +47,19 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _checking = false;
     });
-    if(accessToken != null){
+    if (accessToken != null) {
       print(accessToken.toJson());
       final userData = await FacebookAuth.instance.getUserData();
       _accessToken = accessToken;
       setState(() {
         _userData = userData;
       });
-    }else{
+    } else {
       _loginFB();
     }
     bool? sessionSaved = prefs.getBool('sessionSaved');
     if (sessionSaved != null && sessionSaved) {
-      Navigator.pushReplacementNamed(context, '/dash'); 
+      Navigator.pushReplacementNamed(context, '/dash');
     }
   }
 
@@ -74,137 +73,135 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController txtConUser = TextEditingController();
     TextEditingController txtConPass = TextEditingController();
 
-final btnEntrar = FloatingActionButton.extended(
+    final btnEntrar = FloatingActionButton.extended(
       icon: Icon(Icons.login),
       label: Text('Entrar'),
-      
       backgroundColor: Color.fromARGB(255, 12, 144, 221),
       onPressed: () async {
-        bool res = await emailAuth.validateUser(emailUser: txtConUser.text, pwdUser: txtConPass.text);
-        if(txtConUser!=null && txtConPass!=null){
-         showDialog(context: context, 
-          builder: (BuildContext context){
-            return AlertDialog(
-              title: Text('Error \n - Los campos no pueden estar vacíos \n - Correo o Contraseña Incorrectos', style: TextStyle(fontSize: 10),),
-              icon: Icon(Icons.warning),
-              actions: [
-              Align(
-                  child: ElevatedButton(onPressed: (){
-                    Navigator.of(context).pop();
-                  }, child: Text('Aceptar'),),
-                ),
-                
-              ],
-            );
-          } );
-        }if(res){
-          LoadingPage(); 
+        bool res = await emailAuth.validateUser(
+            emailUser: txtConUser.text, pwdUser: txtConPass.text);
+        if (txtConUser != null && txtConPass != null) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Error \n - Los campos no pueden estar vacíos \n - Correo o Contraseña Incorrectos',
+                    style: TextStyle(fontSize: 10),
+                  ),
+                  icon: Icon(Icons.warning),
+                  actions: [
+                    Align(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Aceptar'),
+                      ),
+                    ),
+                  ],
+                );
+              });
+        }
+        if (res) {
+          LoadingPage();
           Navigator.pushNamed(context, '/dash');
           saveSession(isSessionSaved);
         }
-        
       },
     );
 
-final sessionCheckbox = Checkbox(
+    final sessionCheckbox = Checkbox(
       value: isSessionSaved,
       onChanged: (value) {
         setState(() {
           isSessionSaved = value!;
-
         });
       },
     );
 
-final btnGit = ElevatedButton(
-      onPressed: () async{
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool('Recuerdame', marcado ?? false);
-        UserCredential userCredential = await gitLogin.signInGit(); 
-        UsuarioAct = userCredential.additionalUserInfo!.profile!['login'] as String?;
-        FotoPerfil = userCredential.user!.photoURL;
-        EmailAct = userCredential.user!.email;
-        //prefs.setString('User', UsuarioAct!);
-        prefs.setString('Foto', FotoPerfil!);
-        //prefs.setString('Email', EmailAct!);
-        Navigator.pushNamed(context, '/dash');
-      },  
-      style: ButtonStyle( 
-        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 36, 36, 43)),
-      ),
-      child: //const Icon(Icons.gite, color: Colors.white,),
-        Row(
+    final btnGit = ElevatedButton(
+        onPressed: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setBool('Recuerdame', marcado ?? false);
+          UserCredential userCredential = await gitLogin.signInGit();
+          UsuarioAct =
+              userCredential.additionalUserInfo!.profile!['login'] as String?;
+          FotoPerfil = userCredential.user!.photoURL;
+          EmailAct = userCredential.user!.email;
+          //prefs.setString('User', UsuarioAct!);
+          prefs.setString('Foto', FotoPerfil!);
+          //prefs.setString('Email', EmailAct!);
+          Navigator.pushNamed(context, '/dash');
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              const Color.fromARGB(255, 36, 36, 43)),
+        ),
+        child: //const Icon(Icons.gite, color: Colors.white,),
+            Row(
           children: [
             Icon(Icons.login),
-            SizedBox(width: 8,),
-            const Text("Sign with Github", style: TextStyle(fontFamily: "Quicksand")),
+            SizedBox(
+              width: 8,
+            ),
+            const Text("Sign with Github",
+                style: TextStyle(fontFamily: "Quicksand")),
           ],
-        )
-    );
+        ));
 
     return Scaffold(
       //backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: ListView(
-        padding: EdgeInsets.symmetric(
-          horizontal: 40.0,
-          vertical: 90.0
-        ),
-        children: <Widget> [
-          Divider(height: 50,),
+        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 90.0),
+        children: <Widget>[
+          Divider(
+            height: 50,
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('EnrutaTec',
-              style: TextStyle(fontSize: 40), 
-              
-              ),
+                  style: TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins')),
               CircleAvatar(
                 radius: 100.0,
                 backgroundColor: Color.fromARGB(11, 255, 255, 255),
                 backgroundImage: AssetImage('images/autobus.gif'),
               ),
-              Text(
-                'Bienvenido',
-                style: TextStyle(
-                  fontSize: 20.0
-                ),
-              ),
-              SizedBox(
-                width: 160.0,
-                height: 15.0,
-                child: Divider()
-              ),
+              Text('Bienvenido',
+                  style: TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins')),
+              SizedBox(width: 160.0, height: 15.0, child: Divider()),
               TextField(
                 enableInteractiveSelection: false,
                 decoration: InputDecoration(
-                  hintText: 'Correo',
-                  labelText: 'Correo',
-                  suffix: Icon(
-                    Icons.verified_user
-                  ) ,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0)
-                  )
-                ),
+                    hintText: 'Correo',
+                    labelText: 'Correo',
+                    suffix: Icon(Icons.verified_user),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
                 controller: txtConUser,
               ),
               Divider(height: 30),
               TextField(
                 enableInteractiveSelection: false,
                 decoration: InputDecoration(
-                  hintText: 'Contraseña',
-                  labelText: 'Contraseña',
-                  suffix: Icon(
-                    Icons.password
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0)
-                  )
-                ),
+                    hintText: 'Contraseña',
+                    labelText: 'Contraseña',
+                    suffix: Icon(Icons.password),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
                 controller: txtConPass,
                 obscureText: true,
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
                 child: Row(
@@ -212,35 +209,33 @@ final btnGit = ElevatedButton(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return ForgotPasswordPage();
-                        },
-                        ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ForgotPasswordPage();
+                            },
+                          ),
                         );
                       },
-                      child: Text('¿Olvidaste tu contraseña?',
-                      style: TextStyle(fontSize: 15),),
+                      child: Text(
+                        '¿Olvidaste tu contraseña?',
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ),
                   ],
                 ),
               ),
-
               TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/register'), 
-                  child: const Text('¿No tienes una cuenta? Registrate', 
-                  style: TextStyle(fontSize: 15),
-                  )
-                
-      ),
-          Column(
-            children: [
-              _login(),
-              _loginFB(),
-              btnGit,
-              btnEntrar
-            ],
-          ),
-           /*ElevatedButton(onPressed: () {
+                  onPressed: () => Navigator.pushNamed(context, '/register'),
+                  child: const Text(
+                    '¿No tienes una cuenta? Registrate',
+                    style: TextStyle(fontSize: 15),
+                  )),
+              Column(
+                children: [_login(), _loginFB(), btnGit, btnEntrar],
+              ),
+              /*ElevatedButton(onPressed: () {
             //_login();
             //_loginFB();
            }, child: _login(), _loginFB //_user.uid != null ? _logged() : _login() 
@@ -248,50 +243,52 @@ final btnGit = ElevatedButton(
            Divider(height: 5,),
            ElevatedButton(onPressed: (){
               
-           }, child: btnEntrar)*/ 
+           }, child: btnEntrar)*/
             ],
-           
           )
-          
         ],
-      ),      
+      ),
     );
   }
 
-  ElevatedButton _login(){
-    return ElevatedButton.icon(icon: Icon(Icons.login), label: Text('Sign with Google'), onPressed: () async{
-      await _auth.signInGoogle();
-      setState(() {
-        _user.user= _auth.user;
-        Navigator.pushNamed(context, '/dash');
-      });
-    });
+  ElevatedButton _login() {
+    return ElevatedButton.icon(
+        icon: Icon(Icons.login),
+        label: Text('Sign with Google'),
+        onPressed: () async {
+          await _auth.signInGoogle();
+          setState(() {
+            _user.user = _auth.user;
+            Navigator.pushNamed(context, '/dash');
+          });
+        });
   }
 
   ElevatedButton _loginFB() {
-    return ElevatedButton.icon(icon: Icon(Icons.login), label: Text('Sign with Facebook'), onPressed: () async{
-      final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success){
-        _accessToken = result.accessToken;
-        final userData = await FacebookAuth.instance.getUserData();
-        _userData=_userData;
-      }else{
-        print(result.status);
-        print(result.message);
-      }
-      setState(() {
-        _checking=false;
-        Navigator.pushNamed(context, '/dash');
-      });
-    });
+    return ElevatedButton.icon(
+        icon: Icon(Icons.login),
+        label: Text('Sign with Facebook'),
+        onPressed: () async {
+          final LoginResult result = await FacebookAuth.instance.login();
+          if (result.status == LoginStatus.success) {
+            _accessToken = result.accessToken;
+            final userData = await FacebookAuth.instance.getUserData();
+            _userData = _userData;
+          } else {
+            print(result.status);
+            print(result.message);
+          }
+          setState(() {
+            _checking = false;
+            Navigator.pushNamed(context, '/dash');
+          });
+        });
   }
 
-  _logoutFB() async{
+  _logoutFB() async {
     await FacebookAuth.instance.logOut();
     _accessToken = null;
     _userData = null;
-    setState(() {
-    });
+    setState(() {});
   }
-
 }

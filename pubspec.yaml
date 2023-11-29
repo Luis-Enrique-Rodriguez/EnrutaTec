@@ -42,7 +42,21 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+ 
+  fonts:
+    - family: Poppins
+      fonts:
+      - asset: fonts/Poppins-Bold.ttf
+        weight: 700
+      - asset: fonts/Poppins-MediumItalic.ttf
+        weight: 500
+        #style: normal
+      - asset: fonts/Poppins-Italic.ttf
+        weight: 400
+        style: italic
 
   assets:
     - images/.
+
+    
     
