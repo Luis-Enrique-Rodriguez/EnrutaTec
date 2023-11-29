@@ -31,7 +31,7 @@ class _EditProfileState extends State<EditProfile> {
   Future uploadImageToFirebase(BuildContext context) async {
     String fileName = _image!.path;
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child("upload/" + DateTime.now().toString());
+    Reference ref = storage.ref().child("images/" + DateTime.now().toString());
     UploadTask uploadTask = ref.putFile(_image!);
     await uploadTask.whenComplete(() {
       print('File Uploaded');
