@@ -15,7 +15,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController txtConEmail = TextEditingController();
   File? _image;
   final picker = ImagePicker();
-
+  
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
