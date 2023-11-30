@@ -32,7 +32,9 @@ class _EditProfileState extends State<EditProfile> {
   Future uploadImageToFirebase(BuildContext context) async {
     String fileName = _image!.path;
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child("images/" + DateTime.now().toString());
+    Reference ref =
+        storage.ref().child("images/" + DateTime.now().toString() + ".png");
+    ;
     UploadTask uploadTask = ref.putFile(_image!);
     await uploadTask.whenComplete(() async {
       print('File Uploaded');
@@ -81,7 +83,11 @@ class _EditProfileState extends State<EditProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi perfil'),
+        title: const Text('Mi perfil',
+            style: TextStyle(
+                fontSize: 40.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins')),
       ),
       body: Center(
         child: Padding(

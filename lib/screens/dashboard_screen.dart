@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:enrutatec/firebase/auth_with_google.dart';
 import 'package:enrutatec/firebase/ruta_firebase.dart';
+import 'package:enrutatec/screens/editprofile.dart';
 import 'package:enrutatec/screens/login_screen.dart';
 import 'package:enrutatec/screens/map_screen.dart';
 import 'package:enrutatec/screens/map_screen_pinos.dart';
@@ -21,6 +23,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
+  final String _uploadedFileURL = 'https://i.pravatar.cc/300';
   RutaFirebase? rutasFirebase;
   final FirebaseUser _user = FirebaseUser();
   final AuthServiceGoogle _auth = AuthServiceGoogle();
@@ -45,31 +48,34 @@ class DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('EnrutaTec'),
-        ),
-        drawer: createDrawer(),
-        body: Column(
-          children: [
-            buildCustomCard(
-                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-                '23',
-                'San Jose > Roque',
-                () => navigateTo23(context)),
-            buildCustomCard(
-                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-                '43',
-                'Honda - Romeral -  CD. Industrial',
-                () => navigateTo43(context)),
-            buildCustomCard(
-                'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png',
-                '60',
-                'Circuito Centro Norte',
-                () => navigateTo60(context)),
-          ],
-        )
+      appBar: AppBar(
+        title: Text('EnrutaTec'),
+      ),
+      drawer: createDrawer(),
+      body: ListView(
+        children: <Widget>[
+          buildCustomCard(
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png'
+                  as String,
+              '23',
+              'San Jose > Roque',
+              () => navigateTo23(context)),
+          buildCustomCard(
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png'
+                  as String,
+              '43',
+              'Honda - Romeral -  CD. Industrial',
+              () => navigateTo43(context)),
+          buildCustomCard(
+              'https://www.celaya.gob.mx/wp-content/uploads/2023/02/Cya21-24_horizontal-01.png'
+                  as String,
+              '60',
+              'Circuito Centro Norte',
+              () => navigateTo60(context)),
+        ],
+      ),
 
-        /*StreamBuilder<DocumentSnapshot>(
+      /*StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance.collection('ruta').doc('23').snapshots(), 
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if(snapshot.hasError){
@@ -156,7 +162,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         },
       ),*/
 
-        /*FutureBuilder(
+      /*FutureBuilder(
           future: getAllRutasList(), 
           builder: ((context, snapshot) {
             if(snapshot.hasData){
@@ -200,7 +206,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       
         
         )*/
-        );
+    );
   }
 
   Widget createDrawer() {
@@ -208,17 +214,24 @@ class DashboardScreenState extends State<DashboardScreen> {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: _user.imageUrl != null
-                    ? NetworkImage(_user.imageUrl!)
+            currentAccountPicture: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: _uploadedFileURL != null
+                    ? NetworkImage(_uploadedFileURL!)
                     : NetworkImage('https://i.pravatar.cc/300'),
               ),
-              accountName: _user.name != null
-                  ? Text(_user.name!)
-                  : Text('Buenas tardes'),
-              accountEmail: _user.email != null
-                  ? Text(_user.email!)
-                  : Text('Bienvenido')),
+            ),
+            accountName:
+                _user.name != null ? Text(_user.name!) : Text('Buenas tardes'),
+            accountEmail:
+                _user.email != null ? Text(_user.email!) : Text('Bienvenido'),
+          ),
           ListTile(
             leading: Icon(Icons.person),
             trailing: Icon(Icons.chevron_right),
@@ -306,45 +319,60 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Row(
+        child: Column(
           children: [
-            Image.network(
-              imageUrl,
-              width: 100,
-              height: 100,
-            ),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(number),
-                Text(routeName),
+            CarouselSlider(
+              items: [
+                Image.network(
+                  imageUrl,
+                  width: 100,
+                  height: 100,
+                ),
               ],
+              options: CarouselOptions(
+                autoPlay: false,
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 2.0,
+                initialPage: 2,
+              ),
             ),
-            Spacer(),
-            GestureDetector(
-              onTap: onTap,
-              child: Icon(Icons.map),
+            Row(
+              children: [
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(number),
+                    Text(routeName),
+                  ],
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: onTap,
+                  child: Icon(Icons.map),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  void navigateTo23(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapScreenSanJose()));
-  }
+void navigateTo23(BuildContext context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MapScreenSanJose()));
+}
 
-  void navigateTo43(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapsScreen()));
-  }
+void navigateTo43(BuildContext context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MapsScreen()));
+}
 
-  void navigateTo60(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapScreenPinos()));
-  }
+void navigateTo60(BuildContext context) {
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MapScreenPinos()));
 }

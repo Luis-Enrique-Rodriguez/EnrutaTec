@@ -6,8 +6,10 @@ import 'package:enrutatec/screens/map_screen.dart';
 import 'package:enrutatec/screens/map_screen_pinos.dart';
 import 'package:enrutatec/screens/map_screen_snjose.dart';
 import 'package:enrutatec/screens/onboarding_screen.dart';
+import 'package:enrutatec/screens/profile_page.dart';
 import 'package:enrutatec/screens/profile_screen.dart';
 import 'package:enrutatec/screens/register_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getRoutes() {
@@ -22,6 +24,6 @@ Map<String, WidgetBuilder> getRoutes() {
     '/23': (BuildContext context) => MapScreenSanJose(),
     '/login': (BuildContext context) => LoginScreen(),
     '/onboard': (BuildContext context) => OnBoarding(),
-    '/editprofile': (BuildContext context) => EditProfile(),
+    '/editprofile': (BuildContext context) => ProfilePage(),
   };
 }
